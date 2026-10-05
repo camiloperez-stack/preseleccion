@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evaluación de Aptitud y Criterio - Auxiliar Administrativo</title>
     
-    <!-- Fuentes Google: Plus Jakarta Sans + Space Grotesk (Estilo Vectorial) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
@@ -20,7 +19,6 @@
             --text-main: #111111;
             --text-muted: #4b5563;
             --stroke-width: 2.5px;
-            /* Sombra vectorial rígida estilo Illustrator/Figma */
             --vector-shadow: 4px 4px 0px #111111;
             --vector-shadow-hover: 6px 6px 0px #111111;
             --radius: 12px;
@@ -31,7 +29,6 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--illustrator-bg);
-            /* Patrón de puntos tipo cuadrícula de diseño / Illustrator grid */
             background-image: radial-gradient(#d1d5db 1.5px, transparent 1.5px);
             background-size: 24px 24px;
             color: var(--text-main);
@@ -50,7 +47,6 @@
             box-shadow: 8px 8px 0px var(--illustrator-black);
         }
 
-        /* Banner de Encabezado */
         .header-banner {
             border-bottom: var(--stroke-width) solid var(--illustrator-black);
             padding-bottom: 25px;
@@ -89,7 +85,6 @@
             font-weight: 500;
         }
 
-        /* Barra de Cronómetro Flotante */
         .timer-sticky {
             position: sticky;
             top: 20px;
@@ -117,7 +112,6 @@
             box-shadow: 2px 2px 0px var(--illustrator-black);
         }
 
-        /* Caja de Alerta */
         .alert-box {
             background-color: #fef08a;
             border: var(--stroke-width) solid var(--illustrator-black);
@@ -133,7 +127,6 @@
             padding-left: 20px;
         }
 
-        /* Títulos de Sección */
         .section-title {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.35rem;
@@ -155,7 +148,6 @@
             border-radius: 3px;
         }
 
-        /* Campos y Formulario */
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -209,7 +201,6 @@
             resize: vertical;
         }
 
-        /* Tarjetas Seleccionables para Preguntas (Dilemas) */
         .dilemma-card {
             background: #ffffff;
             border: var(--stroke-width) solid var(--illustrator-black);
@@ -262,7 +253,6 @@
             font-weight: 500;
         }
 
-        /* Opción seleccionada */
         .option-label:has(input[type="radio"]:checked) {
             background-color: #e0e7ff;
             border-color: var(--illustrator-black);
@@ -270,7 +260,6 @@
             box-shadow: 4px 4px 0px var(--illustrator-black);
         }
 
-        /* Botón de Envío */
         .btn-submit {
             background-color: var(--illustrator-purple);
             color: #ffffff;
@@ -323,20 +312,17 @@
 
 <div class="main-container">
 
-    <!-- CRONÓMETRO FLOTANTE -->
     <div class="timer-sticky">
         <span>⏱️ Tiempo Límite de Evaluación</span>
         <div class="timer-badge" id="timer">35:00</div>
     </div>
 
-    <!-- ENCABEZADO -->
     <div class="header-banner">
         <span class="artboard-tag">Artboard 01 // Evaluación</span>
         <h1>Prueba de Selección y Criterio</h1>
         <p>Cargo: <strong>Auxiliar Administrativo</strong> | Evaluación Técnica y Perfil Conductual</p>
     </div>
 
-    <!-- REGLAS DE SEGURIDAD -->
     <div class="alert-box">
         <strong>📌 Normas Generales de Presentación:</strong>
         <ul>
@@ -348,7 +334,6 @@
 
     <form id="quizForm">
 
-        <!-- DATOS CANDIDATO -->
         <div class="form-grid">
             <div>
                 <label class="field-label" for="nombre">Nombre Completo *</label>
@@ -360,7 +345,6 @@
             </div>
         </div>
 
-        <!-- PARTE I: APTITUD TÉCNICA -->
         <div class="section-title">Parte I: Aptitud Técnica y Casos Prácticos</div>
 
         <div class="field-group">
@@ -375,7 +359,7 @@
         <div class="field-group">
             <label class="field-label">2. Razonamiento Numérico y Operativo</label>
             <div class="field-prompt">
-                <strong>Consigna:</strong> Se realiza una compra de suministros por $450.000 (subtotal sin IVA). El proveedor aplica un 5% de descuento sobre el subtotal por pronto pago, y sobre [...]
+                <strong>Consigna:</strong> Se realiza una compra de suministros por $450.000 (subtotal sin IVA). El proveedor aplica un 5% de descuento sobre el subtotal por pronto pago.
             </div>
             <textarea id="bloque2" required placeholder="Indica el valor final a pagar y el desglose simple del cálculo..."></textarea>
         </div>
@@ -393,18 +377,16 @@
         <div class="field-group">
             <label class="field-label">4. Caso Situacional y Priorización</label>
             <div class="field-prompt">
-                <strong>Consigna:</strong> Inicias la mañana con 4 tareas: A) Reporte urgente solicitado por dirección en 30 min, B) Proveedor en recepción sin cita previa, C) 15 correos pendi[...]
+                <strong>Consigna:</strong> Inicias la mañana con 4 tareas urgentes. Explica tu orden de prioridad y manejo.
             </div>
             <textarea id="bloque4" required placeholder="Explica tu orden de prioridad y tu manejo con el proveedor..."></textarea>
         </div>
 
-        <!-- PARTE II: TEST DE CRITERIO -->
         <div class="section-title">Parte II: Criterio Operativo y Perfil Conductual</div>
         <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 24px; font-weight: 500;">
             A continuación, encontrarás situaciones con dos alternativas válidas. Selecciona la opción que mejor represente tu criterio de trabajo habitual:
         </p>
 
-        <!-- DILEMA 1 -->
         <div class="dilemma-card">
             <div class="dilemma-title">1. Ante un documento prioritario que requiere la firma inmediata de Gerencia pero nota que falta un dato secundario en la plantilla:</div>
             <div class="options-container">
@@ -419,7 +401,6 @@
             </div>
         </div>
 
-        <!-- DILEMA 2 -->
         <div class="dilemma-card">
             <div class="dilemma-title">2. Al atender la llamada de un usuario o cliente interno visiblemente molesto por un retraso ajeno a tu gestión:</div>
             <div class="options-container">
@@ -434,7 +415,6 @@
             </div>
         </div>
 
-        <!-- DILEMA 3 -->
         <div class="dilemma-card">
             <div class="dilemma-title">3. En tu metodología de trabajo diario, logras tu mayor nivel de productividad cuando:</div>
             <div class="options-container">
@@ -449,7 +429,6 @@
             </div>
         </div>
 
-        <!-- DILEMA 4 -->
         <div class="dilemma-card">
             <div class="dilemma-title">4. Si identificas un error recurrente en la forma en que los integrantes del equipo radican las facturas:</div>
             <div class="options-container">
@@ -464,7 +443,6 @@
             </div>
         </div>
 
-        <!-- DILEMA 5 -->
         <div class="dilemma-card">
             <div class="dilemma-title">5. Al entregar un reporte administrativo a tu jefe directo, prefieres presentar:</div>
             <div class="options-container">
@@ -479,13 +457,12 @@
             </div>
         </div>
 
-        <!-- PARTE III: ESPACIO LIBRE / HISTORIA AGRADABLE -->
         <div class="section-title">Parte III: Espacio de Cierre y Comunicación</div>
 
         <div class="field-group">
             <label class="field-label">¡Queremos conocerte un poco más!</label>
             <div class="field-prompt">
-                <strong>Consigna:</strong> Para finalizar la evaluación, cuéntanos brevemente una historia o anécdota agradable (puede ser una experiencia bonita en tu trabajo anterior, un logro personal o una vivencia que haya reforzado tu actitud laboral).
+                <strong>Consigna:</strong> Para finalizar la evaluación, cuéntanos brevemente una historia o anécdota agradable.
             </div>
             <textarea id="historia" required placeholder="Escribe tu historia aquí..."></textarea>
         </div>
@@ -513,17 +490,14 @@
 
     function startTimer() {
         clearInterval(countdownInterval);
-
         countdownInterval = setInterval(() => {
             timerElement.innerText = formatTime(timeLeft);
-
             if (timeLeft <= 0) {
                 clearInterval(countdownInterval);
                 alert("El tiempo ha finalizado. La evaluación se enviará automáticamente.");
                 submitForm(true);
                 return;
             }
-
             timeLeft--;
         }, 1000);
     }
@@ -578,71 +552,4 @@
         clearInterval(countdownInterval);
         setSubmittingState(true);
 
-        const p1 = document.querySelector('input[name="p1"]:checked')?.value || 'Sin Respuesta';
-        const p2 = document.querySelector('input[name="p2"]:checked')?.value || 'Sin Respuesta';
-        const p3 = document.querySelector('input[name="p3"]:checked')?.value || 'Sin Respuesta';
-        const p4 = document.querySelector('input[name="p4"]:checked')?.value || 'Sin Respuesta';
-        const p5 = document.querySelector('input[name="p5"]:checked')?.value || 'Sin Respuesta';
-
-        const payload = {
-            nombre: document.getElementById('nombre').value.trim(),
-            correo: document.getElementById('correo').value.trim(),
-            bloque1: document.getElementById('bloque1').value.trim(),
-            bloque2: document.getElementById('bloque2').value.trim(),
-            bloque3: document.getElementById('bloque3').value.trim(),
-            bloque4: document.getElementById('bloque4').value.trim(),
-            personalidad: `P1:${p1} | P2:${p2} | P3:${p3} | P4:${p4} | P5:${p5}`,
-            historia: document.getElementById('historia').value.trim(),
-            alertasTab: `Salidas de pestaña: ${tabSwitchCount} veces`,
-            autoSubmitted: autoSubmitted,
-            tiempoRestante: timeLeft
-        };
-
-        const formData = new URLSearchParams();
-        formData.append('data', JSON.stringify(payload));
-
-        fetch(SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: formData
-        })
-        .then(() => {
-            alert('¡Evaluación entregada con éxito! La información ha sido registrada correctamente.');
-            window.location.reload();
-        })
-        .catch((error) => {
-            console.error('Error al enviar:', error);
-            alert('Ocurrió un error al enviar la evaluación. Revisa tu conexión a internet o inténtalo nuevamente.');
-            setSubmittingState(false);
-            startTimer();
-        });
-    }
-
-    document.addEventListener('contextmenu', (event) => event.preventDefault());
-
-    document.addEventListener('paste', (event) => {
-        event.preventDefault();
-        alert('La función de pegar texto externo está inhabilitada en esta prueba.');
-    });
-
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            tabSwitchCount++;
-        }
-    });
-
-    form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        submitForm(false);
-    });
-
-    window.addEventListener('beforeunload', () => {
-        clearInterval(countdownInterval);
-    });
-
-    timerElement.innerText = formatTime(timeLeft);
-    startTimer();
-</script>
-
-</body>
-</html>
+        const p1 = document.querySelector('input[name="p1"]:checked')?.value ||
