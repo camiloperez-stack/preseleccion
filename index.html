@@ -375,7 +375,7 @@
         <div class="field-group">
             <label class="field-label">2. Razonamiento Numérico y Operativo</label>
             <div class="field-prompt">
-                <strong>Consigna:</strong> Se realiza una compra de suministros por $450.000 (subtotal sin IVA). El proveedor aplica un 5% de descuento sobre el subtotal por pronto pago, y sobre ese valor neto se calcula el IVA del 19%. ¿Cuál es el valor total a pagar? Muestra la operación básica realizada.
+                <strong>Consigna:</strong> Se realiza una compra de suministros por $450.000 (subtotal sin IVA). El proveedor aplica un 5% de descuento sobre el subtotal por pronto pago, y sobre [...]
             </div>
             <textarea id="bloque2" required placeholder="Indica el valor final a pagar y el desglose simple del cálculo..."></textarea>
         </div>
@@ -393,7 +393,7 @@
         <div class="field-group">
             <label class="field-label">4. Caso Situacional y Priorización</label>
             <div class="field-prompt">
-                <strong>Consigna:</strong> Inicias la mañana con 4 tareas: A) Reporte urgente solicitado por dirección en 30 min, B) Proveedor en recepción sin cita previa, C) 15 correos pendientes por responder, D) Organizar la agenda semanal. ¿En qué orden ejecutarías estas tareas y cómo manejarías al proveedor?
+                <strong>Consigna:</strong> Inicias la mañana con 4 tareas: A) Reporte urgente solicitado por dirección en 30 min, B) Proveedor en recepción sin cita previa, C) 15 correos pendi[...]
             </div>
             <textarea id="bloque4" required placeholder="Explica tu orden de prioridad y tu manejo con el proveedor..."></textarea>
         </div>
@@ -485,7 +485,7 @@
         <div class="field-group">
             <label class="field-label">¡Queremos conocerte un poco más!</label>
             <div class="field-prompt">
-                <strong>Consigna:</strong> Para finalizar la evaluación, cuéntanos brevemente una historia o anécdota agradable (puede ser una experiencia bonita en tu trabajo anterior, un logro personal o una situación que recuerdes con una sonrisa).
+                <strong>Consigna:</strong> Para finalizar la evaluación, cuéntanos brevemente una historia o anécdota agradable (puede ser una experiencia bonita en tu trabajo anterior, un logro personal o una vivencia que haya reforzado tu actitud laboral).
             </div>
             <textarea id="historia" required placeholder="Escribe tu historia aquí..."></textarea>
         </div>
@@ -495,89 +495,156 @@
 </div>
 
 <script>
-    // URL DE GOOGLE APPS SCRIPT
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyRo5LqfaKaucWMflwn6bGMpON7rZ6SWxL-ZBOZ114yggFMntpraDBlvMCaLBdTYVUE/exec"; 
-    
-    let timeLeft = 35 * 60; // 35 Minutos
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyRo5LqfaKaucWMflwn6bGMpON7rZ6SWxL-ZBOZ114yggFMntpraDBlvMCaLBdTYVUE/exec";
+
+    let timeLeft = 35 * 60;
     let tabSwitchCount = 0;
+    let countdownInterval = null;
 
-    // CRONÓMETRO
     const timerElement = document.getElementById('timer');
-    const countdown = setInterval(() => {
-        let minutes = Math.floor(timeLeft / 60);
-        let seconds = timeLeft % 60;
-        seconds = seconds < 10 ? '0' + seconds : seconds;
-        timerElement.innerHTML = `${minutes}:${seconds}`;
-        
-        if (timeLeft <= 0) {
-            clearInterval(countdown);
-            alert("El tiempo ha finalizado. Sus respuestas se enviarán automáticamente.");
-            submitForm();
+    const form = document.getElementById('quizForm');
+    const submitBtn = document.getElementById('submitBtn');
+
+    function formatTime(totalSeconds) {
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        return `${minutes}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    function startTimer() {
+        clearInterval(countdownInterval);
+
+        countdownInterval = setInterval(() => {
+            timerElement.innerText = formatTime(timeLeft);
+
+            if (timeLeft <= 0) {
+                clearInterval(countdownInterval);
+                alert("El tiempo ha finalizado. La evaluación se enviará automáticamente.");
+                submitForm(true);
+                return;
+            }
+
+            timeLeft--;
+        }, 1000);
+    }
+
+    function validateForm() {
+        const textFields = [
+            document.getElementById('nombre'),
+            document.getElementById('correo'),
+            document.getElementById('bloque1'),
+            document.getElementById('bloque2'),
+            document.getElementById('bloque3'),
+            document.getElementById('bloque4'),
+            document.getElementById('historia')
+        ];
+
+        for (const field of textFields) {
+            if (!field || !field.value.trim()) {
+                return false;
+            }
         }
-        timeLeft--;
-    }, 1000);
 
-    // CONTROLES DE SEGURIDAD
-    document.addEventListener('contextmenu', event => event.preventDefault());
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(document.getElementById('correo').value.trim())) {
+            return false;
+        }
 
-    document.addEventListener('paste', (e) => {
-        e.preventDefault();
-        alert("La función de pegar texto externo está inhabilitada en esta prueba.");
+        const radioGroups = new Set();
+        form.querySelectorAll('input[type="radio"][required]').forEach(input => radioGroups.add(input.name));
+
+        for (const groupName of radioGroups) {
+            const selected = form.querySelector(`input[name="${groupName}"]:checked`);
+            if (!selected) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function setSubmittingState(isSubmitting) {
+        submitBtn.disabled = isSubmitting;
+        submitBtn.innerText = isSubmitting ? 'Procesando y enviando evaluación...' : 'Finalizar y Enviar Evaluación';
+    }
+
+    function submitForm(autoSubmitted = false) {
+        if (!autoSubmitted && !validateForm()) {
+            alert('Completa todos los campos obligatorios antes de enviar la evaluación.');
+            setSubmittingState(false);
+            return;
+        }
+
+        clearInterval(countdownInterval);
+        setSubmittingState(true);
+
+        const p1 = document.querySelector('input[name="p1"]:checked')?.value || 'Sin Respuesta';
+        const p2 = document.querySelector('input[name="p2"]:checked')?.value || 'Sin Respuesta';
+        const p3 = document.querySelector('input[name="p3"]:checked')?.value || 'Sin Respuesta';
+        const p4 = document.querySelector('input[name="p4"]:checked')?.value || 'Sin Respuesta';
+        const p5 = document.querySelector('input[name="p5"]:checked')?.value || 'Sin Respuesta';
+
+        const payload = {
+            nombre: document.getElementById('nombre').value.trim(),
+            correo: document.getElementById('correo').value.trim(),
+            bloque1: document.getElementById('bloque1').value.trim(),
+            bloque2: document.getElementById('bloque2').value.trim(),
+            bloque3: document.getElementById('bloque3').value.trim(),
+            bloque4: document.getElementById('bloque4').value.trim(),
+            personalidad: `P1:${p1} | P2:${p2} | P3:${p3} | P4:${p4} | P5:${p5}`,
+            historia: document.getElementById('historia').value.trim(),
+            alertasTab: `Salidas de pestaña: ${tabSwitchCount} veces`,
+            autoSubmitted: autoSubmitted,
+            tiempoRestante: timeLeft
+        };
+
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+        .then(async (response) => {
+            const responseText = await response.text();
+
+            if (!response.ok) {
+                throw new Error(responseText || 'La respuesta del servidor no fue correcta.');
+            }
+
+            alert('¡Evaluación entregada con éxito! La información ha sido registrada correctamente.');
+            window.location.reload();
+        })
+        .catch((error) => {
+            console.error('Error al enviar:', error);
+            alert('Ocurrió un error al enviar la evaluación. Revisa tu conexión a internet o inténtalo nuevamente.');
+            setSubmittingState(false);
+            startTimer();
+        });
+    }
+
+    document.addEventListener('contextmenu', (event) => event.preventDefault());
+
+    document.addEventListener('paste', (event) => {
+        event.preventDefault();
+        alert('La función de pegar texto externo está inhabilitada en esta prueba.');
     });
 
-    document.addEventListener("visibilitychange", () => {
+    document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
             tabSwitchCount++;
         }
     });
 
-    // ENVÍO DE DATOS
-    const form = document.getElementById('quizForm');
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-        submitForm();
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        submitForm(false);
     });
 
-    function submitForm() {
-        const submitBtn = document.getElementById('submitBtn');
-        submitBtn.disabled = true;
-        submitBtn.innerText = "Procesando y enviando evaluación...";
+    window.addEventListener('beforeunload', () => {
+        clearInterval(countdownInterval);
+    });
 
-        const p1 = document.querySelector('input[name="p1"]:checked')?.value || "Sin Respuesta";
-        const p2 = document.querySelector('input[name="p2"]:checked')?.value || "Sin Respuesta";
-        const p3 = document.querySelector('input[name="p3"]:checked')?.value || "Sin Respuesta";
-        const p4 = document.querySelector('input[name="p4"]:checked')?.value || "Sin Respuesta";
-        const p5 = document.querySelector('input[name="p5"]:checked')?.value || "Sin Respuesta";
-
-        const payload = {
-            nombre: document.getElementById('nombre').value,
-            correo: document.getElementById('correo').value,
-            bloque1: document.getElementById('bloque1').value,
-            bloque2: document.getElementById('bloque2').value,
-            bloque3: document.getElementById('bloque3').value,
-            bloque4: document.getElementById('bloque4').value,
-            personalidad: `P1:${p1} | P2:${p2} | P3:${p3} | P4:${p4} | P5:${p5}`,
-            historia: document.getElementById('historia').value,
-            alertasTab: `Salidas de pestaña: ${tabSwitchCount} veces`
-        };
-
-        fetch(SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        })
-        .then(() => {
-            alert("¡Evaluación entregada con éxito! La información ha sido registrada correctamente.");
-            window.location.reload();
-        })
-        .catch(error => {
-            console.error('Error al enviar:', error);
-            alert("Ocurrió un error al enviar. Revisa tu conexión a internet e inténtalo nuevamente.");
-            submitBtn.disabled = false;
-            submitBtn.innerText = "Finalizar y Enviar Evaluación";
-        });
-    }
+    timerElement.innerText = formatTime(timeLeft);
+    startTimer();
 </script>
 
 </body>
